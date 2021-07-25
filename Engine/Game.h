@@ -27,6 +27,7 @@
 #include <random>
 #include "Snake.h"
 #include "Goal.h"
+#include "Obstacle.h"
 
 class Game
 {
@@ -52,6 +53,8 @@ private:
 	Location delta_loc = {1,0};
 	std::mt19937 rng;
 	Goal goal;
+	Obstacle obs;
+	
 
 	static constexpr int snekMovePeriodMin = 4;
 	int snekMovePeriod = 20;

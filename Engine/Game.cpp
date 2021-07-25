@@ -30,7 +30,8 @@ Game::Game( MainWindow& wnd )
 	brd(gfx),
 	rng(std::random_device()()),
 	snek({2,2}),
-	goal(rng, brd, snek)
+	goal(rng, brd, snek),
+	obs(rng, brd, snek)
 {
 }
 
@@ -72,14 +73,16 @@ void Game::UpdateModel()
 			{
 				snekMoveCounter = 0;
 				const Location next = snek.GetNextHeadLocation(delta_loc);
+				const bool crash = next == obs.GetLocation();
 				if (!brd.IsInsideBoard(next) ||
-					snek.IsInTileExceptEnd(next))
+					snek.IsInTileExceptEnd(next)|| crash)
 				{
 					gameIsOver = true;
 				}
 				else
 				{
 					const bool eating = next == goal.GetLocation();
+					
 					if (eating)
 					{
 						snek.Grow();
@@ -90,6 +93,7 @@ void Game::UpdateModel()
 					if (eating)
 					{
 						goal.Respawn(rng, brd, snek);
+						obs.Spawn(rng, brd, snek);
 					}
 				}
 				
@@ -121,6 +125,7 @@ void Game::ComposeFrame()
 	{
 		snek.Draw(brd);
 		goal.Draw(brd);
+		obs.Draw(brd);
 		if (gameIsOver)
 		{
 			SpriteCodex::DrawGameOver(350, 265, gfx);
