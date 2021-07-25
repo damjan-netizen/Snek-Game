@@ -15,8 +15,8 @@ void Board::DrawCell(const Location& loc, Color c)
 	assert(loc.y >= 0);
 	assert(loc.y <= height);
 
-	const int off_x = x + borderPadding + borderPadding;
-	const int off_y = y + borderPadding + borderPadding;
+	const int off_x = x + borderWidth + borderPadding;
+	const int off_y = y + borderWidth + borderPadding;
 
 	gfx.DrawRectDim(loc.x * dimension + off_x + cellPadding, loc.y * dimension + off_y + cellPadding, dimension - cellPadding*2, dimension - cellPadding*2, c);
 }
@@ -33,7 +33,7 @@ int Board::GetGridHeight() const
 
 bool Board::IsInsideBoard(const Location& loc) const
 {
-	return (loc.x>=0 && loc.x<=width && loc.y>=0 && loc.y<=height);
+	return (loc.x>=0 && loc.x<width && loc.y>=0 && loc.y<height);
 }
 
 void Board::DrawBorder()
@@ -48,5 +48,6 @@ void Board::DrawBorder()
 	gfx.DrawRect(left, top + borderWidth, left + borderWidth, bottom - borderWidth, borderColor);
 	gfx.DrawRect(right - borderWidth, top + borderWidth, right, bottom - borderWidth, borderColor);
 	gfx.DrawRect(left, bottom - borderWidth, right, bottom, borderColor);
+
 
 }
